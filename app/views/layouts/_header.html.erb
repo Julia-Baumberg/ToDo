@@ -1,0 +1,71 @@
+<header>
+  <nav>
+    <%= link_to(image_tag("logo.png"), root_path, id: "logo") %>
+    <div class="btn-group dropstart show-dropdown-at-1550">
+      <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+        Menu
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <%= link_to "New Task", new_task_path, class: "dropdown-item new-task-color" %>
+        </li>
+        <% if current_user %>
+          <li>
+            <%= link_to "My Tasks", tasks_path, class: "dropdown-item new-task-color" %>
+          </li>
+          <li>
+            <%= link_to "All User Tasks", tasks_path, class: "dropdown-item new-task-color" %>
+          </li>
+          <li>
+              <%= link_to current_user.name, user_path(current_user), class: "dropdown-item other-menu-items" %>
+          </li>
+          <li>
+              <%= link_to "Account Settings", edit_user_path(current_user), class: "dropdown-item other-menu-items"  %>
+          </li>
+          <li>
+            <%= button_to "Sign Out", session_path, method: :delete, class: "dropdown-item other-menu-items" %>
+          </li>
+        <% else %>
+          <li>
+              <%= link_to "Sign In", signin_path, class: "dropdown-item other-menu-items" %>
+          </li>
+          <li>
+              <%= link_to "Sign Up", signup_path, class: "dropdown-item other-menu-items" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+      <ul class="left">
+        <li class="ms-5 d-none d-md-block">
+          <%= link_to "New Task", new_task_path, class: "button text-button" %>
+        </li>
+          <li>
+            <%= link_to "My Tasks", tasks_path, class: "button text-button" %>
+          </li>
+          <li>
+            <%= link_to "All User Tasks", tasks_path, class: "button text-button" %>
+          </li>
+      </ul>
+      <ul class="right">
+        <% if current_user %>
+          <li class="d-none d-lg-block">
+              <%= link_to current_user.name, user_path(current_user), class: "button text-button" %>
+          </li>
+          <li class="d-none d-lg-block">
+              <%= link_to "Account Settings", edit_user_path(current_user), class: "button text-button" %>
+          </li>
+          <li class="d-none d-lg-block">
+            <%= button_to "Sign Out", session_path, method: :delete, class: "button text-button" %>
+          </li>
+        <% else %>
+          <li class="d-none d-lg-block">
+              <%= link_to "Sign In", signin_path, class: "button text-button" %>
+          </li>
+          <li class="d-none d-lg-block">
+              <%= link_to "Sign Up", signup_path, class: "button text-button" %>
+          </li>
+        <% end %>
+      </ul>
+  </nav>
+</header>

@@ -1,0 +1,47 @@
+    <section class="content">
+      <p style="color: green"><%= notice %></p>
+
+        <h1>Due Soon</h1>
+
+
+          <div id="tasks">
+            <% @tasks.each do |task| %>
+              <div class="card p-2 my-4 border border-dark-subtle shadow-lg">
+                  <span class="d-flex">
+                    <p class="w-50">
+                      <strong>Title:</strong>
+                      <%= task.title %>
+                    </p>
+
+                    <p class="w-50">
+                      <strong>Description:</strong>
+                      <%= task.description %>
+                    </p>
+                  </span>
+                  <span class="d-flex">
+                    <p class="w-50">
+                      <strong>Due date:</strong>
+                      <%= task.due_date %>
+                    </p>
+
+                    <p class="w-50">
+                      <strong>Priority:</strong>
+                      <%= task.priority %>
+                    </p>
+                  </span>
+                  <span class="d-flex">
+                    <p class="w-50">
+                      <strong>User:</strong>
+                      <%= task.user.name %>
+                    </p>
+                    <p class="w-50">
+                      <%= link_to "Show this task", task, class: "btn btn-primary" %>
+                    </p>
+                    <p class="w-50">
+                      <%= link_to "Add Comment", new_task_comment_path(task), class: "btn btn-primary" %>
+                    </p>
+                  </span>
+              </div>
+            <% end %>
+          </div>
+    </section>

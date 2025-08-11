@@ -1,0 +1,35 @@
+<p style="color: green"><%= notice %></p>
+<p>
+  <strong>Title:</strong>
+  <%= @task.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @task.description %>
+</p>
+
+<p>
+  <strong>Due date:</strong>
+  <%= @task.due_date %>
+</p>
+
+<p>
+  <strong>Priority:</strong>
+  <%= @task.priority %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @task.user.name %>
+</p>
+
+<div>
+  <% if current_user %>
+    <%= link_to "Edit this task", edit_task_path(@task) %> |
+      <%else %>
+  <%= link_to "Back to tasks", tasks_path %>
+  <% end %>
+
+  <%= button_to "Destroy this task", @task, method: :delete %>
+</div>
