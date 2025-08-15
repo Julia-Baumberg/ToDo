@@ -1,63 +1,43 @@
 <% if current_user %>
     <section class="content" data-controller="search">
-      <p style="color: green"><%= notice %></p>
 
         <h1>Your Tasks</h1>
 
           <input type="text" id="search" placeholder="Search..."
           data-action="input->search#filterTasks"/>
 
-    <!-- Filter dropdown form -->
-    <%= form_with url: tasks_path, method: :get, local: true do %>
-      <%= select_tag :priority,
-          options_for_select(
-            [
-              ["All Priorities", ""],
-              ["Due Soon", "due_soon"]
-            ] + @priorities.map { |p| ["Priority #{p}", p] },
-            params[:priority]
-          ),
-          onchange: 'this.form.submit();',
-          class: "form-select mb-4" %>
-    <% end %>
+        <!-- Filter dropdown form -->
+        <%= form_with url: tasks_path, method: :get, local: true do %>
+          <%= select_tag :priority,
+              options_for_select(
+                [
+                  ["All Priorities", ""],
+                  ["Due Soon", "due_soon"]
+                ] + @priorities.map { |p| ["Priority #{p}", p] },
+                params[:priority]
+              ),
+              onchange: 'this.form.submit();',
+              class: "form-select mb-4" %>
+        <% end %>
 
-          <div id="tasks">
-            <% @tasks.each do |task| %>
-              <div data-search-target="task" class="card p-2 my-4 border border-dark-subtle shadow-lg">
-                  <span class="d-flex">
-                    <p class="w-50" data-search-target="title">
-                      <strong>Title:</strong>
-                      <%= task.title %>
-                    </p>
 
-                    <p class="w-50" data-search-target="description">
-                      <strong>Description:</strong>
-                      <%= task.description %>
-                    </p>
-                  </span>
-                  <span class="d-flex">
-                    <p class="w-50">
-                      <strong>Due date:</strong>
-                      <%= task.due_date %>
-                    </p>
+      <h3>Open Tasks</h3>
+        <div id="tasks">
+          <% if @tasks.any? %>
+            <%= render partial: "task_card", collection: @tasks, as: :task %>
+          <% else %>
+            <p>No open tasks at the moment.</p>
+          <% end %>
+        </div>
 
-                    <p class="w-50">
-                      <strong>Priority:</strong>
-                      <%= task.priority %>
-                    </p>
-                  </span>
-                  <span class="d-flex">
-                    <p class="w-50">
-                      <strong>User:</strong>
-                      <%= task.user.name %>
-                    </p>
-                    <p class="w-50">
-                      <%= link_to "Show this task", task, class: "btn btn-primary" %>
-                    </p>
-                  </span>
-              </div>
-            <% end %>
-          </div>
+      <h3>Completed Tasks</h3>
+        <div id="completed_tasks">
+          <% if @completed_tasks.any? %>
+            <%= render partial: "task_card", collection: @completed_tasks, as: :task, locals: { completed: true } %>
+          <% else %>
+            <p>No completed tasks yet.</p>
+          <% end %>
+        </div>
     </section>
 
   <%else %>

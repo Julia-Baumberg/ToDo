@@ -12,17 +12,4 @@ class User < ApplicationRecord
 
   has_many :tasks
 
-  # before_save :set_slug
-
-  # def to_param
-  #   slug
-  # end
-
-  private
-
-  # def set_slug
-  #   self.slug = name.parameterize
-  # end
-
-
 end

@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
 
     if user&.authenticate(params[:password])
       session[:user_id] = user.id
-      redirect_to(session[:intended_url] || tasks_path(user), notice: "Welcome back #{user.name}!")
+      redirect_to(session[:intended_url] || tasks_path, notice: "Welcome back #{user.name}!")
       session[:intended_url] = nil
     else
       flash.now[:danger] = "I'm sorry, Dave, I'm afraid I can't do that.. you can't sign in this way"
@@ -17,6 +17,6 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:user_id] = nil
-    redirect_to signin_path, status: :see_other, alert: 'Logged Out!'
+    redirect_to root_path, status: :see_other, alert: 'Logged Out!'
   end
 end

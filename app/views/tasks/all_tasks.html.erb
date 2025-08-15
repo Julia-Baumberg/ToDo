@@ -1,0 +1,40 @@
+    <section class="content" data-controller="search">
+
+        <h1>All Tasks</h1>
+
+          <input type="text" id="search" placeholder="Search..."
+          data-action="input->search#filterTasks"/>
+
+
+          <!-- Filter User dropdown -->
+
+        <%= form_with url: all_tasks_path, method: :get, local: true do %>
+          <%= select_tag :username,
+              options_for_select(
+                  [
+                    ["All Users", ""]
+                  ] + User.order(:username).map { |u| ["#{u.name} (#{u.username})", u.username] },
+                params[:username]
+              ),
+              onchange: 'this.form.submit();',
+              class: "form-select mb-4" %>
+        <% end %>
+
+        <h3>Open Tasks</h3>
+          <div id="tasks">
+            <% if @open_tasks.any? %>
+              <%= render partial: "task_card", collection: @open_tasks, as: :task, locals: { completed: false } %>
+            <% else %>
+              <p>No open tasks at the moment.</p>
+            <% end %>
+          </div>
+
+      <h3>Completed Tasks</h3>
+        <div id="completed_tasks">
+          <% if @completed_tasks.any? %>
+              <%= render partial: "task_card", collection: @completed_tasks, as: :task, locals: { completed: true } %>
+          <% else %>
+              <p>No completed tasks yet.</p>
+          <% end %>
+        </div>
+    </section>

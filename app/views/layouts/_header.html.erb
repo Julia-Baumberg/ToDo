@@ -6,18 +6,23 @@
         Menu
       </button>
       <ul class="dropdown-menu">
+        <% if current_user %>
         <li>
           <%= link_to "New Task", new_task_path, class: "dropdown-item new-task-color" %>
         </li>
-        <% if current_user %>
           <li>
             <%= link_to "My Tasks", tasks_path, class: "dropdown-item new-task-color" %>
           </li>
+          <% if current_user_admin? %>
+            <li>
+              <%= link_to "All User Tasks", all_tasks_path, class: "dropdown-item new-task-color" %>
+            </li>
+              <li>
+              <%= link_to "Show All Users", users_path, class: "dropdown-item new-task-color" %>
+            </li>
+          <% end %>
           <li>
-            <%= link_to "All User Tasks", tasks_path, class: "dropdown-item new-task-color" %>
-          </li>
-          <li>
-              <%= link_to current_user.name, user_path(current_user), class: "dropdown-item other-menu-items" %>
+              <%= link_to "User Profile", user_path(current_user), class: "dropdown-item other-menu-items" %>
           </li>
           <li>
               <%= link_to "Account Settings", edit_user_path(current_user), class: "dropdown-item other-menu-items"  %>
@@ -37,20 +42,27 @@
     </div>
 
       <ul class="left">
+        <% if current_user %>
         <li class="ms-5 d-none d-md-block">
           <%= link_to "New Task", new_task_path, class: "button text-button" %>
         </li>
           <li>
             <%= link_to "My Tasks", tasks_path, class: "button text-button" %>
           </li>
-          <li>
-            <%= link_to "All User Tasks", tasks_path, class: "button text-button" %>
-          </li>
+          <% if current_user_admin? %>
+            <li>
+              <%= link_to "All User Tasks", all_tasks_path, class: "button text-button" %>
+            </li>
+            <li>
+              <%= link_to "Show All Users", users_path, class: "button text-button" %>
+            </li>
+          <% end %>
+          <% end %>
       </ul>
       <ul class="right">
         <% if current_user %>
           <li class="d-none d-lg-block">
-              <%= link_to current_user.name, user_path(current_user), class: "button text-button" %>
+              <%= link_to "User Profile (#{current_user.username.to_s.capitalize})", user_path(current_user), class: "button text-button" %>
           </li>
           <li class="d-none d-lg-block">
               <%= link_to "Account Settings", edit_user_path(current_user), class: "button text-button" %>

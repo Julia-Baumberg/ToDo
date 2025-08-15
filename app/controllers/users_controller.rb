@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
   before_action :require_signin, except: %i[new create]
   before_action :require_correct_user, only: %i[edit update]
-  before_action :require_admin, only: %i[destroy]
+  before_action :require_admin, only: %i[edit destroy]
 
   # GET /users or /users.json
   def index
@@ -52,22 +52,25 @@ class UsersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def user_params
-      params.require(:user)
-            .permit(:name,
-                    :username,
-                    :email,
-                    :password,
-                    :password_confirmation)
-    end
+  def set_user
+    @user = User.find(params[:id])
+  end
 
-    def require_correct_user
-      redirect_to tasks_path, status: :see_other, alert: 'Not authorized to access account!' unless current_user?(@user)
+  def user_params
+    params.require(:user)
+          .permit(:name,
+                  :first_name,
+                  :last_name,
+                  :username,
+                  :email,
+                  :password,
+                  :password_confirmation)
+  end
+
+  def require_correct_user
+    unless current_user?(@user) || current_user_admin?
+      redirect_to tasks_path, status: :see_other, alert: 'Not authorized to access account!'
     end
+  end
 end

@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :require_signin
-  before_action :set_task, only: %i[ show edit update destroy ]
+  before_action :set_task, only: %i[ show edit update destroy mark_completed]
 
 
 
@@ -10,14 +10,20 @@ class TasksController < ApplicationController
     @priorities = Task::PRIORITY
     filter = params[:priority]
 
-    @tasks =
-      if filter == "due_soon"
-        current_user.tasks.due_soon(5)
+    @tasks = if filter == "due_soon"
+        current_user.tasks.not_completed.due_soon(5)
       elsif filter.present?
-        current_user.tasks.with_priority(filter)
+        current_user.tasks.not_completed.with_priority(filter)
       else
-        current_user.tasks.by_priority
+        current_user.tasks.not_completed.by_due_date
       end
+    @completed_tasks = if filter == "due_soon"
+      current_user.tasks.is_completed.due_soon(5)
+    elsif filter.present?
+      current_user.tasks.is_completed.with_priority(filter)
+    else
+      current_user.tasks.is_completed.by_due_date
+    end
   end
 
   def show
@@ -60,6 +66,33 @@ class TasksController < ApplicationController
 
     @task.destroy!
     redirect_to tasks_path, status: :see_other, notice: "Task was successfully destroyed."
+  end
+
+  def all_tasks
+    redirect_to(tasks_path, notice: "You are not authorized to access this page.") unless current_user_admin?
+
+    @tasks = Task.all
+
+    if params[:username].present?
+      @tasks = @tasks.joins(:user).where(users: { username: params[:username] })
+    end
+
+
+    @tasks = @tasks.where(is_completed: [true, false])
+
+    @open_tasks = @tasks.not_completed.order(due_date: :asc)
+    @completed_tasks = @tasks.is_completed.order(due_date: :asc)
+
+  @users = User.order(:username)
+  end
+
+
+  def mark_completed
+    if @task.update(is_completed: true)
+      redirect_to request.referer || tasks_path, notice: "Task marked as completed."
+    else
+      redirect_to request.referer || tasks_path, alert: "Unable to mark task as completed."
+    end
   end
 
   private

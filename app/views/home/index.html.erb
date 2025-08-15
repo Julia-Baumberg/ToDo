@@ -1,47 +1,64 @@
-    <section class="content">
-      <p style="color: green"><%= notice %></p>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card p-2 my-4 border border-dark-subtle shadow-lg">
+        <div class="card-body">
+          <h1 class="card-title text-center mb-4">📝 Welcome to Your ToDo App</h1>
+          <p class="text-center text-muted">A simple, user friendly task tracker built with Rails.</p>
 
-        <h1>Due Soon</h1>
+          <% if notice.present? %>
+            <div class="alert alert-success mt-3">
+              <%= notice %>
+            </div>
+          <% end %>
 
-
-          <div id="tasks">
-            <% @tasks.each do |task| %>
-              <div class="card p-2 my-4 border border-dark-subtle shadow-lg">
-                  <span class="d-flex">
-                    <p class="w-50">
-                      <strong>Title:</strong>
-                      <%= task.title %>
-                    </p>
-
-                    <p class="w-50">
-                      <strong>Description:</strong>
-                      <%= task.description %>
-                    </p>
-                  </span>
-                  <span class="d-flex">
-                    <p class="w-50">
-                      <strong>Due date:</strong>
-                      <%= task.due_date %>
-                    </p>
-
-                    <p class="w-50">
-                      <strong>Priority:</strong>
-                      <%= task.priority %>
-                    </p>
-                  </span>
-                  <span class="d-flex">
-                    <p class="w-50">
-                      <strong>User:</strong>
-                      <%= task.user.name %>
-                    </p>
-                    <p class="w-50">
-                      <%= link_to "Show this task", task, class: "btn btn-primary" %>
-                    </p>
-                    <p class="w-50">
-                      <%= link_to "Add Comment", new_task_comment_path(task), class: "btn btn-primary" %>
-                    </p>
-                  </span>
+          <% if alert.present? %>
+            <div class="alert alert-danger mt-3">
+              <%= alert %>
+            </div>
+          <% end %>
+          <% if current_user %>
+            <div class="d-flex flex-column justify-content-center mt-4">
+              <h5 class="text-center">Task Details</h5>
+              <hr>
+              <div class="d-flex justify-content-around mb-0">
+                <span>Total tasks: <strong><%= defined?(@tasks_count) ? @tasks_count : 0 %></strong></span>
+                <span>Completed: <strong><%= defined?(@completed_count) ? @completed_count : 0 %></strong></span>
+                <span>Open: <strong><%= defined?(@open_count) ? @open_count : 0 %></strong></span>
               </div>
+              <hr>
+            </div>
+          <% end %>
+          <div class="text-center mt-2">
+            <h6 class="pb-2">Features</h6>
+            <p class="list-unstyled mb-0 fs-7 mb-4">
+              <span>Create, view, edit, and delete tasks. Mark tasks as completed. Optional due dates & priorities.</span>
+            </p  >
+          </div>
+        </div>
+        <% unless current_user %>
+          <hr>
+          <h2 class="text-center"> To view your task details: please sign in </h2>
+
+          <h5 class="text-center"> Don't have an account? <%= link_to "Sign Up! :D", signup_path %> </h5>
+
+          <div class="d-flex justify-content-center pb-4">
+            <%= form_with(url: session_path, class: 'd-flex flex-column w-100') do |f| %>
+
+              <%= f.label :email_or_username %>
+              <%= f.text_field :email_or_username, placeholder: 'Please enter your email or username', autofocus: true, required: true %>
+
+              <%= f.label :password %>
+              <%= f.password_field :password, required: true %>
+
+              <%= f.submit "Sign In" %>
             <% end %>
           </div>
-    </section>
+        <% end %>
+        <div class="card-footer text-center text-muted small small">
+          Built with ❤️ in Rails <%= Rails.version %> by Julia Baumberg
+        </div>
+        </div>
+    </div>
+  </div>
+</div>

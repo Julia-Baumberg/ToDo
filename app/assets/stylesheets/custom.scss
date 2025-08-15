@@ -11,6 +11,7 @@ $orange: #e8890c;
 $yellow: #ffc107;
 $light-yellow: #ffc;
 $red: #dc3545;
+$light-green: hsla(105, 68%, 31%, 0.5);
 
 // Custom Variables
 
@@ -29,6 +30,7 @@ $body-color: $black;
 $body-bg: $off-white;
 $primary: $dark-orange;
 $secondary: $dark-gray;
+$success: $light-green;
 $min-contrast-ratio: 4;
 $input-bg: white;
 
@@ -680,4 +682,99 @@ ul li .d-none.d-lg-block {
   @media (max-width: 1550px) {
     display: block;
   }
+}
+
+.dark-card {
+  background-color: #7c7c7c59;
+  color: #313030;
+}
+
+/* Scoped style just for task card action buttons */
+.task-action-btn {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;  /* Bootstrap default btn padding */
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  color: #fff;
+  background-color: $primary; /* Uses your dark-orange variable */
+  text-decoration: none;
+}
+
+.task-action-btn:hover,
+.task-action-btn:focus {
+  background-color: darken($primary, 5%);
+  text-decoration: none;
+  color: #fff;
+}
+
+/* Remove form spacing when using button_to */
+form.button_to .task-action-btn {
+  margin: 0;
+}
+form.button_to {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+
+@media (max-width: 800px) {
+  .task-card .d-below-800 { display: block !important; }
+  .task-card .d-above-800  { display: none !important; }
+}
+@media (min-width: 801px) {
+  .task-card .d-below-800 { display: none !important; }
+  .task-card .d-above-800  { display: flex !important; } 
+}
+
+.task-card .dropdown-menu form.button_to { display: block; margin: 0; }
+.task-card .dropdown-menu form.button_to .dropdown-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: .25rem 1rem;
+}
+
+/* Task-card dropdown: make text + caret use $dark-orange even on .btn-primary */
+.task-card .btn.dropdown-toggle {
+  color: $dark-orange !important;   /* beats .btn-primary's white text */
+}
+
+/* Caret color (the little triangle) */
+.task-card .dropdown-toggle::after {
+  border-top-color: $dark-orange;
+}
+
+/* Optional: hover/focus accent */
+.task-card .btn.dropdown-toggle:hover,
+.task-card .btn.dropdown-toggle:focus {
+  color: $off-white !important;
+}
+.task-card .dropdown-toggle:hover::after,
+.task-card .dropdown-toggle:focus::after {
+  border-top-color: $off-white;
+}
+
+.fs-7 {
+  font-size: 0.9em;
+}
+
+.card {
+  border-radius: 12px;
+}
+
+.card-footer:last-child {
+  border-radius: none;
+  border-bottom-right-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+
+.btn-success {
+  border: $success;
 }

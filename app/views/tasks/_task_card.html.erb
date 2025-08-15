@@ -1,0 +1,58 @@
+<div data-search-target="task" id="task_<%= task.id %>"
+    class="card task-card p-2 my-4 border border-dark-subtle shadow-lg <%= 'dark-card' if local_assigns[:completed] %>">
+
+  <span class="d-flex">
+    <p class="w-50" data-search-target="title">
+      <strong>Title:</strong> <span id="title"><%= task.title %></span>
+    </p>
+    <p class="w-50" data-search-target="description">
+      <strong>Description:</strong> <span id="description"><%= task.description %></span>
+    </p>
+  </span>
+
+  <span class="d-flex">
+    <p class="w-50"><strong>Due date:</strong> <%= task.due_date %></p>
+    <p class="w-50"><strong>Priority:</strong> <%= task.priority %></p>
+  </span>
+
+  <!-- Desktop / tablet ≥ 801px -->
+  <div class="row align-items-center d-above-800 g-2 mt-2">
+    <div class="col-md-6">
+      <strong>User:</strong> <%= task.user.name %> (<%= task.user.username %>)
+    </div>
+    <div class="col-md-3 text-center">
+      <%= link_to "Show this task", task, class: "btn btn-primary task-action-btn w-100" %>
+    </div>
+    <div class="col-md-3 text-end">
+      <% unless task.is_completed %>
+        <%= button_to "Mark Completed", mark_completed_task_path(task),
+              method: :patch, class: "btn btn-success w-100",
+              form_class: "d-inline" %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Mobile ≤ 800px -->
+  <div class="d-below-800 mt-2">
+    <div class="dropdown w-100">
+      <button class="btn btn-primary dropdown-toggle w-100" type="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+        Task Actions
+      </button>
+      <ul class="dropdown-menu w-100">
+        <li><%= link_to "Show this task", task, class: "dropdown-item" %></li>
+        <% unless task.is_completed %>
+          <li>
+            <%= button_to "Mark Completed", mark_completed_task_path(task),
+                  method: :patch, class: "dropdown-item text-start",
+                  form_class: "m-0 p-0" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="mt-2">
+      <strong>User:</strong> <%= task.user.name %> (<%= task.user.username %>)
+    </div>
+  </div>
+</div>

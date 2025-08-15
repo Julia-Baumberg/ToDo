@@ -4,22 +4,30 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
 static targets = ["title", "description", "task"]
 
-  connect() {
-    console.log("I'm working")
-  }
+connect() {
+  this.filterTasks = this.debounce(this.filterTasks.bind(this), 300)
+}
 
   filterTasks(event) {
     const searchTerm = event.target.value.toLowerCase()
+    const cards = document.querySelectorAll(".card")
 
-    this.titleTargets.forEach((title) => {
-      const postDescription = title.nextElementSibling.textContent.toLowerCase();
-      const postTitle = title.textContent.toLowerCase();
+    cards.forEach((card) => {
+      const postDescription = card.querySelector('#description').textContent.toLowerCase();
+      const postTitle = card.querySelector('#title').textContent.toLowerCase();
       if (postDescription.includes(searchTerm) || postTitle.includes(searchTerm)) {
-        title.parentElement.style.display = "";
+        card.classList.remove("d-none");
       } else {
-        title.parentElement.style.display = "none";
+        card.classList.add("d-none");
       }
-
     });
+  }
+
+  debounce(func, delay) {
+    let timeoutId
+    return (...args) => {
+      clearTimeout(timeoutId)
+      timeoutId = setTimeout(() => func(...args), delay)
+    }
   }
 }

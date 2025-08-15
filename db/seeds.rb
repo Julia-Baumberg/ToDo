@@ -8,38 +8,58 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-User.create!(
-  name: 'Admin',
-  email: 'admin@fake.com',
+User.create(email: 'admin@fake.com',
+  first_name: 'Admin',
+  last_name: 'AlsoAdmin',
+  name: 'Admin AlsoAdmin',
   password: 'password123',
   username: 'admin',
-  admin: true
-  )
+  admin: true)
 
-User.create!(
-  name: 'John',
-  email: 'john.doe@fake.com',
+User.create(email: 'john.doe@fake.com',
+  first_name: 'John',
+  last_name: 'Doe',
+  name: 'John Doe',
   password: 'password123',
   username: 'johnd',
-  admin: false
-)
+  admin: false)
 
-User.create!(
-  name: 'Jane',
-  email: 'jane.doe@fake.com',
+User.create(email: 'jane.doe@fake.com',
+  first_name: 'Jane',
+  last_name: 'Doe',
+  name: 'Jane Doe',
   password: 'password123',
   username: 'janed',
-  admin: false
-)
+  admin: false)
+
+User.create(email: 'swablu.email@fake.com',
+  first_name: 'Swablu',
+  last_name: 'Baumby',
+  name: 'Swablu Baumby',
+  password: 'password123',
+  username: 'swablu',
+  admin: false)
+
+User.create(email: 'mattthematt@fake.com',
+  first_name: 'Matt',
+  last_name: 'theMatt',
+  name: 'Matt theMatt',
+  password: 'password123',
+  username: 'Matt',
+  admin: true)
 
 User.all.each do |user|
+  next if user.tasks.exists?
+
   5.times do
+    value = [true, false].sample
     Task.create!(
       title: Faker::Games::DnD.title_name,
       description: Faker::Food.description,
       priority: rand(1..5),
       due_date: 2.days.from_now,
-      user:
+      user: user,
+      is_completed: value,
     )
   end
 end
