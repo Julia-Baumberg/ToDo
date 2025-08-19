@@ -1,0 +1,8 @@
+<h3>Edit Comment</h3>
+
+<%= form_with(model: [@task, @comment], local: true) do |f| %>
+  <div class="mb-2">
+    <%= f.text_area :content %>
+  </div>
+  <%= f.submit "Update Comment", class: "btn btn-primary" %>
+<% end %>

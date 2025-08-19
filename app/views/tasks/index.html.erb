@@ -20,6 +20,7 @@
               class: "form-select mb-4" %>
         <% end %>
 
+<%= button_to "New Task", new_task_path, method: :get, class: "mb-4 btn btn-primary new-task-color" %>
 
       <h3>Open Tasks</h3>
         <div id="tasks">
@@ -39,6 +40,7 @@
           <% end %>
         </div>
     </section>
+  <hr>
 
   <%else %>
     <h1> Please Sign In </h1>

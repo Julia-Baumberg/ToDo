@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
     return if current_user
 
     session[:intended_url] = request.url
-    redirect_to new_session_url, alert: 'Please sign in first!'
+    redirect_to signin_path, alert: 'Please sign in first!'
   end
 
   def current_user?(user)
@@ -21,14 +21,19 @@ class ApplicationController < ActionController::Base
   def require_admin
     return if current_user_admin?
 
-    redirect_to user_url, alert: 'Unauthorized access!'
+    redirect_to root_path, alert: 'Unauthorized access!'
   end
 
   def current_user_admin?
     current_user&.admin?
   end
 
+  def signed_in?
+    current_user.present?
+  end
+
   helper_method :current_user?
   helper_method :current_user
   helper_method :current_user_admin?
+  helper_method :current_user, :signed_in?
 end

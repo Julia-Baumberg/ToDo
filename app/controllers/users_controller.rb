@@ -1,12 +1,18 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
   before_action :require_signin, except: %i[new create]
-  before_action :require_correct_user, only: %i[edit update]
-  before_action :require_admin, only: %i[edit destroy]
+  before_action :require_correct_user_or_admin, only: %i[edit update destroy]
 
   # GET /users or /users.json
   def index
+    unless current_user&.admin?
+      flash[:notice] = "You don't have access to that page!"
+      redirect_to tasks_path
+      return
+    end
+
     @users = User.all
+    @task = Task.find_by(id: params[:task_id])
   end
 
   # GET /users/1 or /users/1.json
@@ -48,7 +54,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     session[:user_id] = nil if current_user == @user
-    redirect_to tasks_path, status: :see_other, alert: 'Account successfully deleted!'
+    redirect_to root_path, status: :see_other, alert: 'Account successfully deleted!'
   end
 
   private
@@ -59,8 +65,7 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user)
-          .permit(:name,
-                  :first_name,
+          .permit(:first_name,
                   :last_name,
                   :username,
                   :email,
@@ -68,9 +73,9 @@ class UsersController < ApplicationController
                   :password_confirmation)
   end
 
-  def require_correct_user
-    unless current_user?(@user) || current_user_admin?
-      redirect_to tasks_path, status: :see_other, alert: 'Not authorized to access account!'
+  def require_correct_user_or_admin
+    unless current_user == @user || current_user.admin?
+      redirect_to root_path, alert: "Not authorized!"
     end
   end
 end

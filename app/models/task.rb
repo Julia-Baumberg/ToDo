@@ -4,9 +4,10 @@ class Task < ApplicationRecord
   validates :priority, inclusion: { in: PRIORITY }
 
   belongs_to :user
+  has_many :comments, dependent: :destroy
 
   validates :title, uniqueness: { case_sensitive: false }
-  validates :description, length: { minimum: 25 }
+  validates :description, length: { minimum: 15 }
 
   scope :recently_added, -> { order('created_at desc').limit(3) }
   scope :by_priority, -> { order(priority: :asc) }
