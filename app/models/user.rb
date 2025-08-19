@@ -1,7 +1,8 @@
 class User < ApplicationRecord
   has_secure_password
 
-  validates :name, presence: true
+  validates :first_name, presence: true
+  validates :last_name, presence: true
   validates :email, presence: true, format: {
     with: /\S+@\S+/
   }, uniqueness: { case_sensitive: false }
@@ -10,6 +11,7 @@ class User < ApplicationRecord
             presence: true, format: { with: /\A[A-Z0-9]+\z/i },
             uniqueness: { case_sensitive: false }
 
-  has_many :tasks
+  has_many :tasks, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
 end

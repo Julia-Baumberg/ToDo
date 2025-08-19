@@ -28,6 +28,9 @@ class TasksController < ApplicationController
 
   def show
     @user = @task.user
+
+    @task = Task.find(params[:id])
+    @comments = @task.comments.includes(:user).order(created_at: :desc)
   end
 
   def new
@@ -47,11 +50,11 @@ class TasksController < ApplicationController
   end
 
   def edit
-    @task = @user.tasks.find_by(id: params[:id])
+    @task = current_user.tasks.find_by(id: params[:id])
   end
 
   def update
-    @task = @user.tasks.find_by(id: params[:id])
+    @task = current_user.tasks.find_by(id: params[:id])
 
       if @task.update(task_params)
         redirect_to task_path, notice: "Task was successfully updated."
@@ -88,10 +91,11 @@ class TasksController < ApplicationController
 
 
   def mark_completed
-    if @task.update(is_completed: true)
-      redirect_to request.referer || tasks_path, notice: "Task marked as completed."
+    if @task.update(is_completed: !@task.is_completed)
+      message = @task.is_completed ? "Task marked as completed." : "Task marked as not completed."
+      redirect_to request.referer || tasks_path, notice: message
     else
-      redirect_to request.referer || tasks_path, alert: "Unable to mark task as completed."
+      redirect_to request.referer || tasks_path, alert: "Unable to update task."
     end
   end
 

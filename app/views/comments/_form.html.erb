@@ -1,0 +1,12 @@
+<%= form_with model: [@task, comment] do |form| %>
+  <%= render "shared/errors", object: comment %>
+
+  <div>
+    <%= form.label :content %>
+    <%= form.text_area :content %>
+  </div>
+
+  <div>
+    <%= form.submit "Post", class: "btn btn-primary" %>
+  </div>
+<% end %>

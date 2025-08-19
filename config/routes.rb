@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     member do
       patch :mark_completed
     end
-    resources :comments, only: [:new, :create, :destroy]
+    resources :comments, only: [:index, :new, :create, :edit, :update, :destroy]
 
   end
 end

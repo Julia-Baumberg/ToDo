@@ -63,3 +63,20 @@ User.all.each do |user|
     )
   end
 end
+
+
+admins = User.where(admin: true).to_a
+
+Task.find_each do |task|
+  next if task.comments.exists?
+
+  allowed_commenters = admins + [task.user]
+
+  rand(1..3).times do
+    commenter = allowed_commenters.sample
+    task.comments.create!(
+      user: commenter,
+      content: Faker::Lorem.paragraph_by_chars(number: 140)
+    )
+  end
+end

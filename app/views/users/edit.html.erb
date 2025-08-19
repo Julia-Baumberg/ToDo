@@ -5,6 +5,9 @@
 <br>
 
 <div>
-  <%= link_to "Show this user", @user %> |
-  <%= link_to "Back to users", users_path %>
+  <%= link_to "Show this user", @user %>
+  <%= button_to "Delete User",
+      user_path(@user),
+      method: :delete,
+            data: { turbo_confirm: "Delete #{@user.name}? This will permanently remove #{pluralize(@user.tasks.count, 'task')} and #{pluralize(@user.comments.count, 'comment')}." }%>
 </div>
