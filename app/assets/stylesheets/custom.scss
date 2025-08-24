@@ -12,6 +12,7 @@ $yellow: #ffc107;
 $light-yellow: #ffc;
 $red: #dc3545;
 $light-green: hsla(105, 68%, 31%, 0.5);
+$dark-green: hsla(105, 81%, 23%, 0.59);
 $dark-red: #d64025c7;
 
 // Custom Variables
@@ -57,9 +58,9 @@ a:hover {
   text-decoration: underline;
 }
 
-.btn.btn-primary {
-  color: #e4e4e4;
-}
+.row.g-2 input[type="submit"].btn { margin-top: 0 !important; }
+
+.btn.btn-primary:not(.dropdown-toggle) { color: #e4e4e4; }
 
 
 // Header and Nav
@@ -77,10 +78,6 @@ background: radial-gradient(circle,rgba(247, 246, 245, 1) 0%, rgba(227, 117, 32,
       height: 50px;
       margin-right: 0.5rem;
     }
-
-    // a {
-    //   color: $secondary-link-color;
-    // }
 
     a.button {
       @extend .btn, .btn-outline-secondary;
@@ -109,20 +106,14 @@ background: radial-gradient(circle,rgba(247, 246, 245, 1) 0%, rgba(227, 117, 32,
         font-size: 1.1rem;
         margin-right: 5px;
 
-        // a {
-        //   @extend .nav-link;
-        //   color: $secondary-link-color;
-        //   padding-bottom: 1px;
-        // }
 
-        // --- General nav links ---
         nav ul li a.other-menu-items {
           // @extend .nav-link;
           color: $secondary-link-color;
           padding-bottom: 1px;
         }
 
-        // --- Custom style for just "New Task" in dropdown ---
+        // Custom style for "New Task" in dropdown
         nav ul li a.new-task-color {
           color: #170C03;
         }
@@ -408,17 +399,6 @@ ul.reviews {
   }
 }
 
-// Footer
-
-footer {
-  background: $black;
-  color: $light-gray;
-  text-align: center;
-  margin-top: 3rem;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-}
-
 // Admin Section
 
 section.admin {
@@ -601,31 +581,6 @@ section.errors {
   }
 }
 
-// Star Rating
-//
-// Credit: https://codepen.io/filcp/pen/QvZVOg
-
-.star-rating {
-  display: flex;
-  align-items: center;
-  font-size: 25px;
-  height: 25px;
-  justify-content: left;
-
-  .back-stars {
-    display: flex;
-    color: $light-gray;
-    position: relative;
-    // text-shadow: 0px 1px 0 #a2a2a2;
-  }
-  .front-stars {
-    display: flex;
-    color: $accent-color;
-    overflow: hidden;
-    position: absolute;
-    top: 0;
-  }
-}
 
 .dropdown-toggle {
   background-color: #F7F6F5;
@@ -694,10 +649,10 @@ ul li .d-none.d-lg-block {
   color: #313030;
 }
 
-/* Scoped style just for task card action buttons */
+
 .task-action-btn {
   display: inline-block;
-  padding: 0.35rem 0.75rem;  /* Bootstrap default btn padding */
+  padding: 0.35rem 0.75rem; 
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -707,7 +662,7 @@ ul li .d-none.d-lg-block {
   border: 1px solid transparent;
   border-radius: 0.25rem;
   color: #fff;
-  background-color: $primary; /* Uses your dark-orange variable */
+  background-color: $primary;
   text-decoration: none;
 }
 
@@ -718,7 +673,6 @@ ul li .d-none.d-lg-block {
   color: #fff;
 }
 
-/* Remove form spacing when using button_to */
 form.button_to .task-action-btn {
   margin: 0;
 }
@@ -746,17 +700,16 @@ form.button_to {
   padding: .25rem 1rem;
 }
 
-/* Task-card dropdown: make text + caret use $dark-orange even on .btn-primary */
+// Task-card dropdown
+
 .task-card .btn.dropdown-toggle {
-  color: $dark-orange !important;   /* beats .btn-primary's white text */
+  color: $dark-orange !important;
 }
 
-/* Caret color (the little triangle) */
 .task-card .dropdown-toggle::after {
   border-top-color: $dark-orange;
 }
 
-/* Optional: hover/focus accent */
 .task-card .btn.dropdown-toggle:hover,
 .task-card .btn.dropdown-toggle:focus {
   color: $off-white !important;
@@ -784,14 +737,13 @@ form.button_to {
   border-color: $success;
 }
 
-/* Make the visibility helpers work outside .task-card too */
 @media (max-width: 1400px) {
   .d-below-1400 { display: block !important; }
   .d-above-1400 { display: none !important; }
 }
 @media (min-width: 1401px) {
   .d-below-1400 { display: none !important; }
-  .d-above-1400 { display: block !important; } /* keep inline/link look */
+  .d-above-1400 { display: block !important; }
 }
 
 
@@ -828,4 +780,12 @@ $not-completed-bg: $dark-red;
   width: 100%;
   text-align: left;
   padding: .25rem 1rem;
+}
+
+.text-completed {
+  color: $dark-green;
+}
+
+.text-open {
+  color: $dark-red;
 }

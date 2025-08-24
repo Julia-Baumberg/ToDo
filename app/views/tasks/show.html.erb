@@ -31,9 +31,8 @@
 
 <div class="mt-3">
 
-  <!-- ≤ 1400px: dropdown -->
   <div class="d-below-1400">
-    <div class="dropdown w-100">
+    <div class="dropdown w-100 task-actions">
       <button class="btn btn-primary dropdown-toggle w-100" type="button"
               data-bs-toggle="dropdown" aria-expanded="false">
         Task Actions
@@ -65,27 +64,28 @@
     </div>
   </div>
 
-  <!-- ≥ 1401px: your existing inline links/buttons -->
-  <div class="d-above-1400">
-    <%= link_to "Add comment", new_task_comment_path(@task) %> |
+<div class="d-above-1400 d-flex flex-wrap gap-2 mt-2">
+  <%= link_to "Add Comment", new_task_comment_path(@task),
+        class: "btn btn-primary" %>
 
-    <% if current_user %>
-      <%= link_to "Edit this task", edit_task_path(@task) %>
-    <% else %>
-      <%= link_to "Back to tasks", tasks_path %>
-    <% end %>
+  <% if current_user %>
+    <%= link_to "Edit this task", edit_task_path(@task),
+          class: "btn btn-outline-secondary" %>
+  <% else %>
+    <%= link_to "Back to tasks", tasks_path,
+          class: "btn btn-outline-secondary" %>
+  <% end %>
 
+  <%= button_to "Destroy this task", @task,
+        method: :delete,
+        data: { turbo_confirm: "Delete this task?" },
+        class: "btn btn-not-completed",
+        form_class: "d-inline" %>
 
-    <%= button_to "Destroy this task", @task,
-          method: :delete,
-          data: { turbo_confirm: "Delete this task?" },
-          class: "btn btn-not-completed" %>
-
-    <%= toggle_completion_button(@task) %>
-  </div>
+  <%= toggle_completion_button(@task,
+        class: "btn btn-outline-secondary",
+        form_class: "d-inline") %>
 </div>
-
-<!-- Current user comment options -->
 
 <% if current_user %>
   <h4 class="mt-4">Add a comment</h4>

@@ -1,5 +1,3 @@
-<p style="color: green"><%= notice %></p>
-
 <h1>Users</h1>
 
 <div id="users">
@@ -10,5 +8,8 @@
     </p>
   <% end %>
 </div>
+<hr>
 
-<%= link_to "New user", new_user_path %>
+<%= button_to "New user", new_user_path, method: :get, class: "btn btn-primary" %>
+
+<hr>

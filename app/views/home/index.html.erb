@@ -16,11 +16,21 @@
             <div class="d-flex flex-column justify-content-center mt-4">
               <h5 class="text-center">Task Details</h5>
               <hr>
-              <div class="d-flex justify-content-around mb-0">
-                <span>Total tasks: <strong><%= defined?(@tasks_count) ? @tasks_count : 0 %></strong></span>
-                <span>Completed: <strong><%= defined?(@completed_count) ? @completed_count : 0 %></strong></span>
-                <span>Open: <strong><%= defined?(@open_count) ? @open_count : 0 %></strong></span>
-              </div>
+                <div class="d-flex justify-content-around mb-0">
+                  <span>Total tasks: <strong><%= defined?(@tasks_count) ? @tasks_count : 0 %></strong></span>
+                  <span>
+                    Completed:
+                    <strong class="text-completed">
+                      <%= defined?(@completed_count) ? @completed_count : 0 %>
+                    </strong>
+                  </span>
+                  <span>
+                    Open:
+                    <strong class="text-open">
+                      <%= defined?(@open_count) ? @open_count : 0 %>
+                    </strong>
+                  </span>
+                </div>
               <hr>
             </div>
           <% end %>

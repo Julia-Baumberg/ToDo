@@ -5,9 +5,6 @@
           <input type="text" id="search" placeholder="Search..."
           data-action="input->search#filterTasks"/>
 
-
-          <!-- Filter User dropdown -->
-
         <%= form_with url: all_tasks_path, method: :get, local: true do %>
           <%= select_tag :username,
               options_for_select(

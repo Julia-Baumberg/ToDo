@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
   def require_admin
     return if current_user_admin?
 
-    redirect_to root_path, alert: 'Unauthorized access!'
+    redirect_to home_path, alert: 'Unauthorized access!'
   end
 
   def current_user_admin?
