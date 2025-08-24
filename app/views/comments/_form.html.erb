@@ -1,12 +1,17 @@
 <%= form_with model: [@task, comment] do |form| %>
   <%= render "shared/errors", object: comment %>
 
-  <div>
-    <%= form.label :content %>
-    <%= form.text_area :content %>
+  <div class="mb-2">
+    <%= form.label :content, class: "form-label" %>
+    <%= form.text_area :content, rows: 3, class: "form-control", required: true %>
   </div>
 
-  <div>
-    <%= form.submit "Post", class: "btn btn-primary" %>
+<div class="row g-2 mt-3 align-items-stretch">
+  <div class="col-6">
+    <%= form.submit "Post", class: "btn btn-primary w-100" %>
   </div>
+  <div class="col-6">
+    <%= link_to "Back", @task, class: "btn btn-primary w-100" %>
+  </div>
+</div>
 <% end %>

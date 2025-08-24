@@ -17,6 +17,7 @@ class TasksController < ApplicationController
       else
         current_user.tasks.not_completed.by_due_date
       end
+
     @completed_tasks = if filter == "due_soon"
       current_user.tasks.is_completed.due_soon(5)
     elsif filter.present?
@@ -27,9 +28,6 @@ class TasksController < ApplicationController
   end
 
   def show
-    @user = @task.user
-
-    @task = Task.find(params[:id])
     @comments = @task.comments.includes(:user).order(created_at: :desc)
   end
 
@@ -50,12 +48,9 @@ class TasksController < ApplicationController
   end
 
   def edit
-    @task = current_user.tasks.find_by(id: params[:id])
   end
 
   def update
-    @task = current_user.tasks.find_by(id: params[:id])
-
       if @task.update(task_params)
         redirect_to task_path, notice: "Task was successfully updated."
       else
@@ -66,27 +61,23 @@ class TasksController < ApplicationController
 
 
   def destroy
-
     @task.destroy!
     redirect_to tasks_path, status: :see_other, notice: "Task was successfully destroyed."
   end
 
   def all_tasks
-    redirect_to(tasks_path, notice: "You are not authorized to access this page.") unless current_user_admin?
+    redirect_to(tasks_path, notice: "You are not authorized to access this page.") and return unless current_user_admin?
 
     @tasks = Task.all
 
-    if params[:username].present?
-      @tasks = @tasks.joins(:user).where(users: { username: params[:username] })
-    end
-
+    @tasks = @tasks.joins(:user).where(users: { username: params[:username] }) if params[:username].present?
 
     @tasks = @tasks.where(is_completed: [true, false])
 
     @open_tasks = @tasks.not_completed.order(due_date: :asc)
     @completed_tasks = @tasks.is_completed.order(due_date: :asc)
 
-  @users = User.order(:username)
+    @users = User.order(:username)
   end
 
 
@@ -102,7 +93,11 @@ class TasksController < ApplicationController
   private
 
     def set_task
-      @task = Task.find(params[:id])
+      if current_user_admin?
+        @task = Task.find(params[:id])
+      else
+        @task = current_user.tasks.find(params[:id])
+      end
     end
 
     def task_params
@@ -110,7 +105,6 @@ class TasksController < ApplicationController
             .permit(:title,
                     :description,
                     :due_date,
-                    :priority,
-                    :username)
+                    :priority)
     end
 end

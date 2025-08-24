@@ -6,7 +6,6 @@
           <input type="text" id="search" placeholder="Search..."
           data-action="input->search#filterTasks"/>
 
-        <!-- Filter dropdown form -->
         <%= form_with url: tasks_path, method: :get, local: true do %>
           <%= select_tag :priority,
               options_for_select(

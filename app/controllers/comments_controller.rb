@@ -5,7 +5,6 @@ class CommentsController < ApplicationController
   before_action :authorize_commenter!, only: %i[new create edit update destroy]
 
   def index
-
   end
 
   def show
@@ -27,8 +26,6 @@ class CommentsController < ApplicationController
   end
 
   def edit
-    @task = Task.find(params[:task_id])
-    @comment = @task.comments.find(params[:id])
   end
 
   def update
@@ -40,8 +37,6 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @comment = Comment.find(params[:id])
-    @task = @comment.task
     @comment.destroy!
     redirect_to task_path(@comment.task), status: :see_other, notice: "Comment was successfully destroyed."
   end
