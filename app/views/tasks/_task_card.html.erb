@@ -1,11 +1,11 @@
-<div data-search-target="task" id="task_<%= task.id %>"
+<div id="task_<%= task.id %>"
     class="card task-card p-2 my-4 border border-dark-subtle shadow-lg <%= 'dark-card' if local_assigns[:completed] %>">
 
   <span class="d-flex">
-    <p class="w-50" data-search-target="title">
+    <p class="title w-50">
       <strong>Title:</strong> <span id="title"><%= task.title %></span>
     </p>
-    <p class="w-50" data-search-target="description">
+    <p class="description w-50">
       <strong>Description:</strong> <span id="description"><%= task.description %></span>
     </p>
   </span>

@@ -17,7 +17,7 @@
               class: "form-select mb-4" %>
         <% end %>
 
-        <h3>Open Tasks</h3>
+        <h3 id="open-header">Open Tasks</h3>
           <div id="tasks">
             <% if @open_tasks.any? %>
               <%= render partial: "task_card", collection: @open_tasks, as: :task, locals: { completed: false, hide_comment_actions: true } %>
@@ -26,7 +26,7 @@
             <% end %>
           </div>
 
-      <h3>Completed Tasks</h3>
+      <h3 id="completed-header">Completed Tasks</h3>
         <div id="completed_tasks">
           <% if @completed_tasks.any? %>
               <%= render partial: "task_card", collection: @completed_tasks, as: :task, locals: { completed: true, hide_comment_actions: true } %>
@@ -34,4 +34,5 @@
               <p>No completed tasks yet.</p>
           <% end %>
         </div>
+      <p class="d-none mt-2" id="no-results">No results</p>
     </section>
