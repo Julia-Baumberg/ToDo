@@ -1,27 +1,38 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Connects to data-controller="search"
 export default class extends Controller {
-static targets = ["title", "description", "task"]
 
 connect() {
   this.filterTasks = this.debounce(this.filterTasks.bind(this), 300)
 }
 
-  filterTasks(event) {
-    const searchTerm = event.target.value.toLowerCase()
-    const cards = document.querySelectorAll(".card")
+filterTasks(event) {
+  const searchTerm = event.target.value.toLowerCase()
+  const cards = this.element.querySelectorAll(".card")
 
-    cards.forEach((card) => {
-      const postDescription = card.querySelector('#description').textContent.toLowerCase();
-      const postTitle = card.querySelector('#title').textContent.toLowerCase();
-      if (postDescription.includes(searchTerm) || postTitle.includes(searchTerm)) {
-        card.classList.remove("d-none");
-      } else {
-        card.classList.add("d-none");
-      }
-    });
-  }
+  cards.forEach((card) => {
+    const descriptionElement = card.querySelector(".description")
+    const titleElement = card.querySelector(".title")
+
+    const postDescription = (descriptionElement?.textContent || "").toLowerCase()
+    const postTitle = (titleElement?.textContent || "").toLowerCase()
+
+    const matchesSearch = postDescription.includes(searchTerm) || postTitle.includes(searchTerm)
+    card.classList.toggle("d-none", !matchesSearch)
+  })
+
+  const hasAnyVisible = this.element.querySelectorAll(".card:not(.d-none)").length > 0
+
+  const noResults = this.element.querySelector("#no-results")
+  if (noResults) noResults.classList.toggle("d-none", hasAnyVisible)
+
+  const openHeader = this.element.querySelector("#open-header")
+  const completedHeader = this.element.querySelector("#completed-header")
+  const hideHeaders = !hasAnyVisible
+
+  if (openHeader) openHeader.classList.toggle("d-none", hideHeaders)
+  if (completedHeader) completedHeader.classList.toggle("d-none", hideHeaders)
+}
 
   debounce(func, delay) {
     let timeoutId
