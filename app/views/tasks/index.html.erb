@@ -21,24 +21,9 @@
 
 <%= button_to "New Task", new_task_path, method: :get, class: "mb-4 btn btn-primary new-task-color" %>
 
-      <h3 id="open-header">Open Tasks</h3>
-        <div id="tasks">
-          <% if @tasks.any? %>
-            <%= render partial: "task_card", collection: @tasks, as: :task %>
-          <% else %>
-            <p>No open tasks at the moment.</p>
-          <% end %>
-        </div>
+      <%= render "tasks", tasks: @tasks, completed_tasks: @completed_tasks %>
 
-      <h3 id="completed-header">Completed Tasks</h3>
-        <div id="completed_tasks">
-          <% if @completed_tasks.any? %>
-            <%= render partial: "task_card", collection: @completed_tasks, as: :task, locals: { completed: true } %>
-          <% else %>
-            <p>No completed tasks yet.</p>
-          <% end %>
-        </div>
-        <p class="d-none" id="no-results">No results</p>
+      <h3 class="d-none text-red" id="no-results">No results</h>
     </section>
   <hr>
 
