@@ -24,14 +24,16 @@ filterTasks(event) {
   const hasAnyVisible = this.element.querySelectorAll(".card:not(.d-none)").length > 0
 
   const noResults = this.element.querySelector("#no-results")
-  if (noResults) noResults.classList.toggle("d-none", hasAnyVisible)
+  if (noResults) {
+    noResults.classList.toggle("d-none", hasAnyVisible)
+  }
 
-  const openHeader = this.element.querySelector("#open-header")
-  const completedHeader = this.element.querySelector("#completed-header")
+  const results = this.element.querySelector("#results")
   const hideHeaders = !hasAnyVisible
 
-  if (openHeader) openHeader.classList.toggle("d-none", hideHeaders)
-  if (completedHeader) completedHeader.classList.toggle("d-none", hideHeaders)
+  if (results) {
+    results.classList.toggle("d-none", hideHeaders)
+  }
 }
 
   debounce(func, delay) {

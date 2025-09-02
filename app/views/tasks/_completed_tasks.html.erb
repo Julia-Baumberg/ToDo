@@ -1,0 +1,7 @@
+<div id="completed_tasks">
+  <% if completed_tasks.any? %>
+      <%= render partial: "task_card", collection: completed_tasks, as: :task, locals: { completed: true, hide_comment_actions: true } %>
+  <% else %>
+      <p>No completed tasks yet.</p>
+  <% end %>
+</div>

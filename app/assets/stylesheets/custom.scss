@@ -67,7 +67,7 @@ a:hover {
 
 header {
   background: #F7F6F5;
-background: radial-gradient(circle,rgba(247, 246, 245, 1) 0%, rgba(227, 117, 32, 1) 100%);
+  background: radial-gradient(circle,rgba(247, 246, 245, 1) 0%, rgba(227, 117, 32, 1) 100%);
   padding: 0.5rem;
   margin-bottom: 3rem;
 
@@ -786,6 +786,6 @@ $not-completed-bg: $dark-red;
   color: $dark-green;
 }
 
-.text-open {
+.text-open, #no-results {
   color: $dark-red;
 }
